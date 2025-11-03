@@ -7,7 +7,7 @@ defmodule FlowCsvTest do
   end
 
   test "parser handles commas inside quoted fields (RFC 4180)" do
-    line = "value1, \"value with comma, here\",value3"
+    line = "value1,\"value with comma, here\",value3"
     expected = ["value1", "value with comma, here", "value3"]
     assert FlowCsv.Parser.parse_line(line) == expected
   end

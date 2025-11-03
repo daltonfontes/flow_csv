@@ -29,9 +29,9 @@ defmodule FlowCsv.Parser do
 
   # 3. Transation: Found Delimiter
   # RFC4180: Delimter terminates the unquoted field
-  defp parse(<<c, rest::binary>>, curren_field, fields, delimiter, :in_field)
-       when c == delimiter do
-    parse(rest, "", [curren_field | fields], delimiter, :in_field)
+  defp parse(<<char::utf8, rest::binary>>, current_field, fields, delimiter, :in_field)
+       when <<char::utf8>> == delimiter do
+    parse(rest, "", [current_field | fields], delimiter, :in_field)
   end
 
   # 4.Continuation: Normal Character in Field
@@ -60,8 +60,8 @@ defmodule FlowCsv.Parser do
 
   # 8. Transition: Delimiter after Closing Quote
   # RFC4180: End of quoted field, next should be delimiter
-  defp parse(<<c, rest::binary>>, current_field, fields, delimiter, :quote_escape)
-       when c == delimiter do
+  defp parse(<<char::utf8, rest::binary>>, current_field, fields, delimiter, :quote_escape)
+       when <<char::utf8>> == delimiter do
     parse(rest, "", [current_field | fields], delimiter, :in_field)
   end
 
